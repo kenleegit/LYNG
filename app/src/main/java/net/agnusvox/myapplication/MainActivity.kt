@@ -10,6 +10,9 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import android.media.MediaPlayer
+import android.widget.Toast
+import java.io.IOException
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -18,9 +21,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        fab.setOnClickListener {
+            //2018-05-03 Play MP3 from Internet
+            //Reference: https://coding180.com/kotlin-android/playback-file-located-on-the-internet/
+            val mp = MediaPlayer ()
+            try {
+                mp.setDataSource ("http://listen.txly1.net:8000/ly729_a")
+                mp.prepare ()
+                mp.start ()
+            } catch (e: IOException) {
+                Toast.makeText (this, "The file does not exist", Toast.LENGTH_LONG) .show ()
+            }
+//            view ->
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show()
         }
 
         val toggle = ActionBarDrawerToggle(
